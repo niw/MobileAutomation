@@ -1,0 +1,4 @@
+BasedOnStyle: WebKit
+Language: C
+PointerAlignment: Right
+InsertBraces: true

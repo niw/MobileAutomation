@@ -1,0 +1,96 @@
+name: MobileAutomationAgent
+options:
+  bundleIdPrefix: at.niw
+  deploymentTarget:
+    iOS: "26.0"
+  createIntermediateGroups: true
+  defaultConfig: Debug
+  defaultSourceDirectoryType: syncedFolder
+
+configs:
+  Debug: debug
+  Release: release
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    CURRENT_PROJECT_VERSION: 1
+    MARKETING_VERSION: "0.1.0"
+
+packages:
+  AgentSupport:
+    path: ../../Packages/AgentSupport
+  AirPlayScreenshot:
+    url: https://github.com/niw/AirPlayScreenshot
+    branch: master
+  MobileAutomationSupport:
+    path: ../../Packages/MobileAutomationSupport
+
+targets:
+  MobileAutomationAgent:
+    type: application
+    platform: iOS
+    configFiles:
+      Debug: Configurations/MobileAutomationAgent.xcconfig
+      Release: Configurations/MobileAutomationAgent.xcconfig
+    sources:
+      - path: MobileAutomationAgent/Sources
+      - path: Shared/Sources
+    dependencies:
+      - package: AgentSupport
+        product: AgentSupport
+      - package: AgentSupport
+        product: AppSupport
+      - package: AirPlayScreenshot
+        product: AirPlayScreenshot
+      - package: MobileAutomationSupport
+        product: ActionSupport
+      - package: MobileAutomationSupport
+        product: MobileAutomationSupport
+      - target: MobileAutomationAgentWidget
+    info:
+      path: MobileAutomationAgent/Info.plist
+      properties:
+        UIBackgroundModes:
+          - audio
+        NSBonjourServices:
+          - _airplay._tcp
+          - _raop._tcp
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: at.niw.MobileAutomationAgent
+        PRODUCT_NAME: "MobileAutomationAgent"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: "Mobile Automation Agent"
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait"
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        INFOPLIST_KEY_NSSupportsLiveActivities: YES
+        INFOPLIST_KEY_NSLocalNetworkUsageDescription: "Discover devices on the local network to receive AirPlay."
+
+  MobileAutomationAgentWidget:
+    type: app-extension
+    platform: iOS
+    configFiles:
+      Debug: Configurations/MobileAutomationAgentWidget.xcconfig
+      Release: Configurations/MobileAutomationAgentWidget.xcconfig
+    sources:
+      - path: MobileAutomationAgentWidget/Sources
+      - path: Shared/Sources
+    info:
+      path: MobileAutomationAgentWidget/Info.plist
+      properties:
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: at.niw.MobileAutomationAgent.MobileAutomationAgentWidget
+        PRODUCT_NAME: "MobileAutomationAgentWidget"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: "Mobile Automation Agent Live Activity"
+        SKIP_INSTALL: YES

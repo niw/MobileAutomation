@@ -1,0 +1,55 @@
+name: MobileAutomationClient
+options:
+  bundleIdPrefix: at.niw
+  deploymentTarget:
+    iOS: "26.0"
+  createIntermediateGroups: true
+  defaultConfig: Debug
+  defaultSourceDirectoryType: syncedFolder
+
+configs:
+  Debug: debug
+  Release: release
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    CURRENT_PROJECT_VERSION: 1
+    MARKETING_VERSION: "0.1.0"
+
+packages:
+  MobileAutomationSupport:
+    path: ../../Packages/MobileAutomationSupport
+
+targets:
+  MobileAutomationClient:
+    type: application
+    platform: iOS
+    configFiles:
+      Debug: Configurations/MobileAutomationClient.xcconfig
+      Release: Configurations/MobileAutomationClient.xcconfig
+    sources:
+      - path: MobileAutomationClient/Sources
+    dependencies:
+      - package: MobileAutomationSupport
+        product: MobileAutomationSupport
+      - package: MobileAutomationSupport
+        product: ActionSupport
+    info:
+      path: MobileAutomationClient/Info.plist
+      properties:
+        UIBackgroundModes:
+          - audio
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: at.niw.MobileAutomationClient
+        PRODUCT_NAME: "MobileAutomationClient"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: "Mobile Automation Client"
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait"
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"

@@ -1,0 +1,10 @@
+*.xcodeproj/
+*.xcworkspace/
+xcuserdata/
+*.xcuserstate
+DerivedData/
+build/
+.build/
+.swiftpm/
+MobileAutomationClient/Info.plist
+Configurations/*-Local.xcconfig
